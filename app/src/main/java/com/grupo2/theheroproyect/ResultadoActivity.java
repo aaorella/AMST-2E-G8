@@ -73,7 +73,9 @@ public class ResultadoActivity extends AppCompatActivity {
                                     i.putIntegerArrayListExtra("valueStats", getValueStats(powers));
                                     i.putStringArrayListExtra("nameStats", getNameStats(powers));
                                 } catch (JSONException e) {
-                                    e.printStackTrace();
+                                    //e.printStackTrace();
+                                    i.putIntegerArrayListExtra("valueStats", new ArrayList<Integer>());
+                                    i.putStringArrayListExtra("nameStats", new ArrayList<String>());
                                 }
                                 i.putExtra("name", nombre);
                                 i.putExtra("fullName", fullName);
@@ -98,7 +100,7 @@ public class ResultadoActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error);
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Nada que mostrar", Toast.LENGTH_LONG).show();
             }
         });
         queue.add(jsonObjectRequest);

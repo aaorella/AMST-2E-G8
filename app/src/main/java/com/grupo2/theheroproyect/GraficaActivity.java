@@ -19,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -39,14 +40,7 @@ public class GraficaActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         name = getIntent().getExtras().getString("name");
         fullName = getIntent().getExtras().getString("fullName");
         nameStats = getIntent().getExtras().getStringArrayList("nameStats");
@@ -61,6 +55,7 @@ public class GraficaActivity extends AppCompatActivity {
 
     }
 
+
     private void initBarchart(){
         barChart.fitScreen();
         XAxis xAxis = barChart.getXAxis();
@@ -70,14 +65,18 @@ public class GraficaActivity extends AppCompatActivity {
         barChart.getAxisLeft().setDrawGridLines(false);
         barChart.animateY(1500);
         barChart.getLegend().setEnabled(false);
-        String labels[] = new String[valueStats.size()];
 
-        for (int i = 0; i<nameStats.size(); i++){
-            labels[i] = nameStats.get(i);
+        if(nameStats.size() != 0) {
+            String labels[] = new String[nameStats.size()];
+
+            for (int i = 0; i < nameStats.size(); i++) {
+                labels[i] = nameStats.get(i);
+            }
+
+            IndexAxisValueFormatter i = new IndexAxisValueFormatter();
+            i.setValues(labels);
+            xAxis.setValueFormatter(i);
         }
-        IndexAxisValueFormatter i = new IndexAxisValueFormatter();
-        i.setValues(labels);
-        xAxis.setValueFormatter(i);
 
     }
 
@@ -93,7 +92,10 @@ public class GraficaActivity extends AppCompatActivity {
             BarEntry barEntry = new BarEntry(i, value);
             barEntries.add(barEntry);
         }
-        crearDataset(barEntries);
+        if(barEntries.size() != 0){
+            crearDataset(barEntries);
+        }
+
     }
     private void crearDataset(ArrayList<BarEntry> barEntries){
         BarDataSet barDataSet = new BarDataSet(barEntries, "Stats Dataset");
